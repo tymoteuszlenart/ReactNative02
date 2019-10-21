@@ -1,14 +1,34 @@
-var express = require("express");
-var app = express();
-app.use(express.json());
+var http = require("http");
+var qs = require("querystring");
 
-const PORT = 3000;
+var server = http.createServer((req, res) => {
+  console.log(req.method);
 
-app.post("/", (req, res) => {
-  console.log(req.body);
-  res.send(req.body);
+  switch (req.method) {
+    case "GET":
+      res.end("fetchujemy");
+      break;
+    case "POST":
+      servResponse(req, res);
+      break;
+  }
 });
 
-app.listen(PORT, () => {
-  console.log("start serwera na porcie " + PORT);
+servResponse = (req, res) => {
+  var allData = "";
+
+  req.on("data", data => {
+    console.log("data: " + data);
+    allData += data;
+  });
+
+  req.on("end", () => {
+    var finish = qs.parse(allData);
+    finish.msg = "nie";
+    res.end(JSON.stringify(finish));
+  });
+};
+
+server.listen(3000, () => {
+  console.log("serwer startuje na porcie 3000");
 });

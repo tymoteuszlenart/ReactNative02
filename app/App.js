@@ -1,10 +1,12 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Screen1 from "./Screen1";
-import Screen2 from "./Screen2";
+import Main from "./components/Main";
+import ListItem from "./components/ListItem";
+import EditUser from "./components/EditUser";
 
 const Root = createStackNavigator({
-  s1: { screen: Screen1 },
-  s2: { screen: Screen2 }
+  main: { screen: Main },
+  listItem: { screen: ListItem },
+  editUser: { screen: EditUser }
 });
 
 const App = createAppContainer(Root);
