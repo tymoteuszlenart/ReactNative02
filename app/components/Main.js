@@ -52,7 +52,7 @@ class Main extends Component {
 
   handleRegister() {
     if (this.state.login != "" && this.state.pass != "") {
-      fetch("http://172.20.10.11:3000/add", {
+      fetch("http://192.168.100.11:3000/add", {
         method: "POST",
         headers: {
           Accept: "application/json",

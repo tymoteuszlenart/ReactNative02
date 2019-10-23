@@ -37,13 +37,21 @@ app.post("/get", (req, res) => {
 });
 
 app.post("/delete", (req, res) => {
-  for (let i in users) {
-    if (users[i].login == req.body.login) {
-      users[i].splice(i, i);
-      break;
+  function del(callback) {
+    for (let i in users) {
+      if (users[i].login == req.body.login) {
+        users.splice(i, 1);
+        break;
+      }
     }
+    callback();
   }
-  res.send(JSON.stringify(true));
+  function send() {
+    del(function() {
+      res.send(JSON.stringify(true));
+    });
+  }
+  send();
 });
 
 app.listen(PORT, () => {

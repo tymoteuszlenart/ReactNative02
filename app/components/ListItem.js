@@ -20,7 +20,7 @@ class ListItem extends Component {
   }
 
   getUsers = () => {
-    fetch("http://172.20.10.11:3000/get", {
+    fetch("http://192.168.100.11:3000/get", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -44,7 +44,17 @@ class ListItem extends Component {
         <FlatList
           data={this.state.users}
           renderItem={({ item }) => (
-            <User login={item.login} pass={item.pass} />
+            <User
+              login={item.login}
+              pass={item.pass}
+              call={this.getUsers}
+              toEdit={() =>
+                this.props.navigation.navigate("editUser", {
+                  login: item.login,
+                  pass: item.pass
+                })
+              }
+            />
           )}
           keyExtractor={item => item.login}
         />

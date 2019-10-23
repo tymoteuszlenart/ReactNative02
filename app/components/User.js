@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 
 import Button from "./Button";
 
@@ -8,26 +8,48 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
     alignContent: "center",
-    flexDirection: "row"
+    justifyContent: "center",
+    flexDirection: "row",
+    backgroundColor: "grey"
+  },
+  img: {
+    width: 40,
+    height: 40,
+    margin: 5,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "green"
+  },
+  text: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center"
+  },
+  texttxt: {
+    textAlign: "center",
+    fontSize: 16
+  },
+  image: {
+    flex: 0.5,
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: "column"
   }
 });
 
 class User extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    ListItem = new ListItem();
 
     this.edit = this.edit.bind(this);
     this.delete = this.delete.bind(this);
   }
 
-  edit() {
-    this.props.navigation.navigate("editUser");
-  }
-
   delete() {
-    fetch("http://172.20.10.11:3000/delete", {
+    fetch("http://192.168.100.11:3000/delete", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -41,7 +63,7 @@ class User extends Component {
       .then(responseText => {
         if (responseText) {
           alert("Deleted!");
-          ListItem.getUsers();
+          this.props.call();
         }
       })
       .catch(error => {
@@ -49,14 +71,25 @@ class User extends Component {
       });
   }
 
+  edit() {
+    this.props.toEdit();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-          {this.props.login} {this.props.pass}
-        </Text>
-        <Button call={this.edit} text={"edit"} />
-        <Button call={this.delete} text={"delete"} />
+        <View style={styles.image}>
+          <Image style={styles.img} source={require("./img/prof.jpeg")} />
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.texttxt}>
+            {this.props.login} {this.props.pass}
+          </Text>
+        </View>
+        <View style={styles.buttons}>
+          <Button call={this.edit} text={"edit"} />
+          <Button call={this.delete} text={"delete"} />
+        </View>
       </View>
     );
   }
