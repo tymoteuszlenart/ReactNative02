@@ -1,34 +1,51 @@
-var http = require("http");
-var qs = require("querystring");
+var express = require("express");
+var app = express();
+app.use(express.json());
 
-var server = http.createServer((req, res) => {
-  console.log(req.method);
+const PORT = 3000;
+let users = [];
 
-  switch (req.method) {
-    case "GET":
-      res.end("fetchujemy");
-      break;
-    case "POST":
-      servResponse(req, res);
-      break;
-  }
+app.post("/", (req, res) => {
+  res.send(req.body);
 });
 
-servResponse = (req, res) => {
-  var allData = "";
+app.post("/add", (req, res) => {
+  async function check(callback) {
+    if (users.length == 0) data = false;
+    for (let i in users) {
+      data = false;
+      if (users[i].login == req.body.login) {
+        data = true;
+        break;
+      }
+    }
+    if (!data) {
+      users.push(req.body);
+    }
+    callback(data);
+  }
+  function send() {
+    check(function(data) {
+      res.send(data);
+    });
+  }
+  send();
+});
 
-  req.on("data", data => {
-    console.log("data: " + data);
-    allData += data;
-  });
+app.post("/get", (req, res) => {
+  res.send(JSON.stringify(users));
+});
 
-  req.on("end", () => {
-    var finish = qs.parse(allData);
-    finish.msg = "nie";
-    res.end(JSON.stringify(finish));
-  });
-};
+app.post("/delete", (req, res) => {
+  for (let i in users) {
+    if (users[i].login == req.body.login) {
+      users[i].splice(i, i);
+      break;
+    }
+  }
+  res.send(JSON.stringify(true));
+});
 
-server.listen(3000, () => {
-  console.log("serwer startuje na porcie 3000");
+app.listen(PORT, () => {
+  console.log("start serwera na porcie " + PORT);
 });

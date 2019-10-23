@@ -5,14 +5,19 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     alignContent: "center",
-    flex: 0.5,
-    alignSelf: "stretch",
-    backgroundColor: "green"
+    flex: 1,
+    backgroundColor: "green",
+    alignSelf: "baseline",
+    margin: 5
   },
   text: {
     fontSize: 24,
     textAlign: "center",
     color: "white"
+  },
+  regbut: {
+    alignSelf: "stretch",
+    margin: 0
   }
 });
 
@@ -26,8 +31,11 @@ class Button extends Component {
   }
 
   render() {
+    buttonStyles = [styles.button];
+    if (this.state.text.toLowerCase() == "register")
+      buttonStyles.push(styles.regbut);
     return (
-      <TouchableOpacity onPress={this.state.func} style={styles.button}>
+      <TouchableOpacity onPress={this.state.func} style={buttonStyles}>
         <Text style={styles.text}> {this.state.text} </Text>
       </TouchableOpacity>
     );

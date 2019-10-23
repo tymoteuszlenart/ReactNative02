@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   head: {
-    flex: 1,
+    flex: 3,
     backgroundColor: "green",
     justifyContent: "center",
     alignItems: "center"
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 32
   },
   main: {
-    flex: 1,
+    flex: 3,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
 });
 
 class Main extends Component {
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -46,21 +50,32 @@ class Main extends Component {
     this.handleRegister = this.handleRegister.bind(this);
   }
 
-  async handleRegister() {
-    var response = await fetch("https://localhost:3000/", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ user: this.state.login })
-    })
-      .then(res => res.json())
-      .catch(error => console.log(error));
-
-    console.log(response);
-    if (response == "ok") {
-      this.setState({ users: response.users });
+  handleRegister() {
+    if (this.state.login != "" && this.state.pass != "") {
+      fetch("http://172.20.10.11:3000/add", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          login: this.state.login,
+          pass: this.state.pass
+        })
+      })
+        .then(response => response.json())
+        .then(responseText => {
+          if (responseText) {
+            alert("User with this login already exists!");
+          } else {
+            this.props.navigation.navigate("listItem");
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      alert("uzupełnij dane");
     }
   }
 
@@ -100,8 +115,8 @@ class Main extends Component {
               secureTextEntry={true}
             />
           </View>
-          <Button text={"register"} call={this.handleRegister} />
         </View>
+        <Button text={"register"} call={this.handleRegister} />
       </KeyboardAvoidingView>
     );
   }
