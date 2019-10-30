@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
 class ListItem extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       users: ""
     };
@@ -20,7 +19,7 @@ class ListItem extends Component {
   }
 
   getUsers = () => {
-    fetch("http://192.168.100.11:3000/get", {
+    fetch("http://172.20.10.11:3000/get", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -49,7 +49,7 @@ class User extends Component {
   }
 
   delete() {
-    fetch("http://192.168.100.11:3000/delete", {
+    fetch("http://172.20.10.11:3000/delete", {
       method: "POST",
       headers: {
         Accept: "application/json",

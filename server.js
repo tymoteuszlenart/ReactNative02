@@ -10,7 +10,7 @@ app.post("/", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-  async function check(callback) {
+  function check(callback) {
     if (users.length == 0) data = false;
     for (let i in users) {
       data = false;

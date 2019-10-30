@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
 const styles = StyleSheet.create({
   button: {
-    width: 100,
+    width: 200,
     justifyContent: "center",
     alignContent: "center",
     flex: 1,
@@ -31,25 +31,21 @@ const styles = StyleSheet.create({
 class Button extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      func: this.props.call,
-      text: this.props.text.toUpperCase()
-    };
   }
 
   render() {
     buttonStyles = [styles.button];
-    if (this.state.text.toLowerCase() == "register")
+    if (this.props.text.toLowerCase() == "register")
       buttonStyles.push(styles.regbut);
 
     if (
-      this.state.text.toLowerCase() == "edit" ||
-      this.state.text.toLowerCase() == "delete"
+      this.props.text.toLowerCase() == "edit" ||
+      this.props.text.toLowerCase() == "delete"
     )
       buttonStyles.push(styles.text2);
     return (
-      <TouchableOpacity onPress={this.state.func} style={buttonStyles}>
-        <Text style={styles.text}> {this.state.text} </Text>
+      <TouchableOpacity onPress={this.props.call} style={buttonStyles}>
+        <Text style={styles.text}> {this.props.text.toUpperCase()} </Text>
       </TouchableOpacity>
     );
   }
